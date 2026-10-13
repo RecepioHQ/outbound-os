@@ -1,0 +1,17 @@
+[
+  {
+    "provider_event_id": "evt-example-delivery-1",
+    "type": "delivery",
+    "email": "buyer@acme.example",
+    "organization_key": "acme.example"
+  },
+  {
+    "provider_event_id": "evt-example-reply-1",
+    "type": "human_reply",
+    "email": "buyer@acme.example",
+    "organization_key": "acme.example",
+    "message_id": "msg-example-1",
+    "text": "Please send the details.",
+    "occurred_at": "2026-10-13T10:00:00Z"
+  }
+]

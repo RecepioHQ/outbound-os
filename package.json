@@ -1,0 +1,20 @@
+{
+  "name": "outbound-os",
+  "version": "0.1.0",
+  "private": false,
+  "description": "Decision-gated outbound operating system with dry-run-first execution.",
+  "license": "MIT",
+  "type": "commonjs",
+  "workspaces": [
+    "chatgpt"
+  ],
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "test": "node --test",
+    "demo": "node scripts/demo.js",
+    "scan:release": "node scripts/public-release-scan.js . --allow-git",
+    "manifest:release": "node scripts/release-manifest.js ."
+  }
+}

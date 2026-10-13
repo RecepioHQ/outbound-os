@@ -1,0 +1,9 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/mcp.schema.json",
+  "mcpServers": {
+    "outbound_os": {
+      "type": "streamable-http",
+      "url": "https://outbound-os.example/mcp"
+    }
+  }
+}

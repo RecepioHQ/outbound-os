@@ -1,0 +1,12 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "outbound-os",
+  "version": "0.1.0",
+  "description": "Decision-gated outbound workflows with buyer selection, mailbox reconciliation, and controlled send actions.",
+  "author": {
+    "name": "RecepioHQ"
+  },
+  "repository": "https://github.com/RecepioHQ/outbound-os",
+  "license": "MIT",
+  "keywords": ["outbound", "sales", "email", "zoho", "workflow"]
+}

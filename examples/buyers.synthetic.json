@@ -1,0 +1,12 @@
+[
+  {
+    "name": "Northstar Reception Labs",
+    "domain": "northstar-reception.example",
+    "dimensions": {
+      "strategic_fit": {"score": 22, "evidence": [{"type":"strategic_fit","claim":"Offers a receptionist product","status":"VERIFIED","source":"https://northstar-reception.example/product","observed_at":"2026-10-13T10:00:00Z"}]},
+      "commercial_capacity": {"score": 18, "evidence": [{"type":"commercial_capacity","claim":"Public commercial plan exists","status":"VERIFIED","source":"https://northstar-reception.example/pricing","observed_at":"2026-10-13T10:00:00Z"}]},
+      "decision_access": {"score": 16, "evidence": [{"type":"decision_access","claim":"Official commercial route exists","status":"VERIFIED","source":"https://northstar-reception.example/contact","observed_at":"2026-10-13T10:00:00Z"}]},
+      "trigger_timing": {"score": 12, "evidence": [{"type":"trigger_timing","claim":"Synthetic launch signal","status":"VERIFIED","source":"https://northstar-reception.example/news","observed_at":"2026-10-13T10:00:00Z"}]}
+    }
+  }
+]

@@ -1,0 +1,14 @@
+[
+  {
+    "organization_key": "acme.example",
+    "stage": "engaged",
+    "contacts": ["buyer@acme.example"],
+    "verified_facts": ["Buyer replied to the outbound thread."],
+    "inferred_context": [],
+    "unknowns": ["Budget", "purchase authority"],
+    "objections": [],
+    "pricing_context": {},
+    "commitments": [],
+    "next_justified_action": "review_human_reply"
+  }
+]
