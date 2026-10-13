@@ -9,7 +9,7 @@ test('MCP tool surface exposes exactly start check send', () => {
 test('MCP tools declare accurate safety annotations', () => {
   const byName = Object.fromEntries(TOOL_DEFINITIONS.map((tool) => [tool.name, tool.annotations]));
   assert.deepEqual(byName.start, { readOnlyHint: true, destructiveHint: false, openWorldHint: false, idempotentHint: true });
-  assert.deepEqual(byName.check, { readOnlyHint: true, destructiveHint: false, openWorldHint: false, idempotentHint: true });
+  assert.deepEqual(byName.check, { readOnlyHint: false, destructiveHint: false, openWorldHint: true, idempotentHint: true });
   assert.deepEqual(byName.send, { readOnlyHint: false, destructiveHint: true, openWorldHint: true, idempotentHint: false });
 });
 

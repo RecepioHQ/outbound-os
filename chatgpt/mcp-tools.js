@@ -10,8 +10,8 @@ const TOOL_DEFINITIONS = Object.freeze([
   {
     name: 'check',
     title: 'Check mailbox and state',
-    description: 'Read the configured mailbox, reconcile events in the returned Outbound OS state, and report material changes. It does not send or modify mailbox data.',
-    annotations: { readOnlyHint: true, destructiveHint: false, openWorldHint: false, idempotentHint: true }
+    description: 'Read the configured mailbox, reconcile material events into persistent local Outbound OS state, and report what changed. It does not send or modify mailbox data.',
+    annotations: { readOnlyHint: false, destructiveHint: false, openWorldHint: true, idempotentHint: true }
   },
   {
     name: 'send',

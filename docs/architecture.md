@@ -84,7 +84,7 @@ A verified human reply immediately makes the organization cold-ineligible and cr
 The optional MCP server is a thin wrapper over the same Action API used elsewhere. Tool annotations describe actual risk:
 
 - `start`: read-only, bounded, idempotent;
-- `check`: externally read-only in v0.1, bounded, idempotent;
+- `check`: reads an external mailbox, persists reconciled local state, non-destructive, bounded, idempotent;
 - `send`: write, irreversible, open-world, non-idempotent.
 
 The MCP server binds to loopback by default. Public remote deployment requires an authentication/authorization layer that is intentionally outside the v0.1 reference implementation.
