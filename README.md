@@ -39,18 +39,30 @@ Outbound OS starts earlier:
 
 A failed hard gate means **STOP**.
 
+## One-command CLI demo — no global installation
+
+Requires Node.js **22+** and npm. This installs the MIT-licensed release archive into npm's temporary cache (not the global package directory) and executes a **synthetic** comparison of an allowed and a blocked send:
+
+```bash
+npm exec --yes --package=https://github.com/RecepioHQ/outbound-os/releases/download/v0.2.1/outbound-os-0.2.1.tgz -- outbound-os demo --compare
+```
+
+This exact command was tested on Windows with Node.js 22/npm 10: it returned `PASS` for the allowed scenario, `BLOCK` for an unverified mailbox, `blocked.transport_calls=0`, and `live_sent=false`. It downloads the package over HTTPS; it does **not** connect to a real mailbox or transmit an email.
+
+Prefer the [live browser demo](https://recepiohq.github.io/outbound-os/) if you do not have Node.js installed.
+
 ## Run as an installable CLI
 
-### Recommended: install the v0.2.1 release
+### Optional global install from the verified v0.2.1 release
 
 Requirements: **Node.js 22+** and npm. This downloads an MIT-licensed archive attached to the [official v0.2.1 GitHub Release](https://github.com/RecepioHQ/outbound-os/releases/tag/v0.2.1), **not an npm-registry package**.
 
 ```bash
-npm install --global https://github.com/RecepioHQ/outbound-os/releases/download/v0.2.0/outbound-os-0.2.1.tgz
+npm install --global https://github.com/RecepioHQ/outbound-os/releases/download/v0.2.1/outbound-os-0.2.1.tgz
 outbound-os demo --json
 ```
 
-**Verification:** This release candidate passed local Windows tests; final archive checks and checksum are recorded in the [v0.2.1 release](https://github.com/RecepioHQ/outbound-os/releases/tag/v0.2.1) when published. For integrity-sensitive environments, verify that SHA-256 before installing.
+**Verification:** The [published v0.2.1 GitHub Release](https://github.com/RecepioHQ/outbound-os/releases/tag/v0.2.1) and its attached archive were tested on Windows; the installed CLI passed its synthetic comparison. For integrity-sensitive use, verify the archive checksum against the release notes before installing.
 
 **No email is sent in the demo.** Live sending remains off by default and every real send requires approved context and hard-gate checks.
 
