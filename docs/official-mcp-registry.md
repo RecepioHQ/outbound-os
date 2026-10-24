@@ -11,7 +11,7 @@ This project can be discovered via the **official [Model Context Protocol regist
 - The official registry accepts public OCI artifacts from `ghcr.io`, with ownership verified by the `io.modelcontextprotocol.server.name` label.
 - GitHub Actions supports `mcp-publisher login github-oidc` without user PATs or npm publishing.
 
-Identity: `io.github.recepciohq/outbound-os`  
+Identity: `io.github.RecepioHQ/outbound-os`  
 Image: `ghcr.io/recepiohq/outbound-os-mcp:0.2.1`
 
 ## Publishing process
