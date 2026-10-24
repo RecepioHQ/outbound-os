@@ -1,5 +1,21 @@
 # Changelog
 
+## [0.2.1] — 2026-10-24
+
+### Added
+- Offline side-by-side demonstration (`outbound-os demo --compare`), exercising the same send-gate engine as the real program.
+- A verified safe baseline with `PASS` and a blocked `unknown` mailbox case showing exactly which hard gate rejected the send and that no transport was invoked.
+- Three regression tests for contrast mode, backward-compatible demo behavior, and invalid CLI arguments.
+- An evidence-oriented [Show HN preparation checklist](docs/hn-launch-checklist.md) with current community constraints, no automated posting and no engagement solicitation.
+
+### Verification
+- Windows Node.js 22/npm 10: **97/97 tests passed**.
+- Synthetic contrast: `blocked.send_decision=BLOCK`, `blocked.transport_calls=0`, `allowed.live_sent=false`.
+- Public disclosure scan: `ok=true; findings=[]`.
+- No live email provider contacted and no default-send policy changed.
+- Release archive and published asset verification are separate release gates; see release notes for final evidence.
+
+
 ## [0.2.0] — 2026-10-24
 
 This release focuses on a safe, installable developer experience for the MIT-licensed Outbound OS reference implementation.
