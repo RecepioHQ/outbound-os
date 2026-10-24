@@ -1,0 +1,21 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.recepciohq/outbound-os",
+  "title": "Outbound OS",
+  "description": "Evidence-gated email outreach MCP with dry-run defaults and explicit send approvals.",
+  "repository": {
+    "url": "https://github.com/RecepioHQ/outbound-os",
+    "source": "github"
+  },
+  "version": "0.2.1",
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/recepiohq/outbound-os-mcp:0.2.1",
+      "transport": {
+        "type": "streamable-http",
+        "url": "http://localhost:8787/mcp"
+      }
+    }
+  ]
+}
