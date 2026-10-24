@@ -31,6 +31,31 @@ Outbound OS starts earlier:
 
 A failed hard gate means **STOP**.
 
+## Run as an installable CLI
+
+Node.js **22+** and Git are required. The source is [MIT licensed](LICENSE). **No mailbox credentials, ChatGPT account, or API keys are needed for the offline demo.**
+
+### Try from source (recommended first run)
+
+```bash
+git clone https://github.com/RecepioHQ/outbound-os.git
+cd outbound-os
+npm ci
+node bin/outbound-os.js --help
+node bin/outbound-os.js demo --json
+```
+
+### Optional global command from GitHub
+
+```bash
+npm install --global github:RecepioHQ/outbound-os
+outbound-os demo --json
+```
+
+This installs **from the GitHub repository**; the project does **not** claim an independently verified npm-registry publication. For an audited or reproducible installation, pin a reviewed Git commit instead of automatically tracking the default branch.
+
+The demo uses reserved example domains, a mock mailbox and a dry-run transport: **no real emails are sent**. For real operations, follow [provider configuration](docs/provider-adapters.md) and [security requirements](SECURITY.md). The `start`, `check` and `send` commands still invoke the existing state, verification and hard-gate code; installing the CLI grants no permission to bypass them.
+
 ## 60-second demo
 
 Requirements: Node.js 22+.
