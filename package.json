@@ -16,5 +16,8 @@
     "demo": "node scripts/demo.js",
     "scan:release": "node scripts/public-release-scan.js . --allow-git",
     "manifest:release": "node scripts/release-manifest.js ."
+  },
+  "bin": {
+    "outbound-os": "bin/outbound-os.js"
   }
 }
