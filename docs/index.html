@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Try the real open-source Outbound OS send-policy gate engine in your browser. No sign-up, server calls or emails.">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self'; base-uri 'none'; connect-src 'none'; form-action 'none'; object-src 'none'">
+  <meta name="theme-color" content="#081c2b">
+  <title>Outbound OS — Interactive Safety Gate Demo</title>
+  <link rel="stylesheet" href="./demo.css">
+  <script defer src="./gate-engine.js"></script>
+  <script defer src="./app.js"></script>
+</head>
+<body>
+  <div class="shell">
+    <header class="topbar">
+      <a class="wordmark" href="https://github.com/RecepioHQ/outbound-os" rel="noopener noreferrer"><span class="mark">O</span><span>Outbound <strong>OS</strong></span></a>
+      <div class="top-links"><span class="release">OPEN SOURCE · MIT</span><a href="https://github.com/RecepioHQ/outbound-os" rel="noopener noreferrer">View source ↗</a></div>
+    </header>
+    <main>
+      <section class="hero">
+        <div class="eyebrow"><span class="signal"></span> LIVE DECISION ENGINE · OFFLINE SIMULATION</div>
+        <h1>The model can suggest.<br><em>Policy decides.</em></h1>
+        <p>Most outbound tools help you send more. Outbound OS determines when <strong>not to send</strong>. Change the conditions below and watch the real project gate evaluator decide.</p>
+        <div class="trust"><span>✓ No account</span><span>✓ No network requests</span><span>✓ Zero email sends</span><span>✓ Production gate logic</span></div>
+      </section>
+      <section class="workspace" aria-label="Interactive policy simulator">
+        <div class="controls">
+          <div class="panel-top"><div><span class="section-label">01 / EXPERIMENT</span><h2>Test the boundaries</h2></div><span class="offline-tag">LOCAL ONLY</span></div>
+          <p class="minor">Every input is synthetic. These controls model pre-approved facts; they do not validate an actual mailbox or authorization.</p>
+          <div class="presets" aria-label="Example scenarios">
+            <button type="button" class="preset active" data-preset="pass" aria-pressed="true">Approved</button>
+            <button type="button" class="preset" data-preset="mailbox" aria-pressed="false">Unknown mailbox</button>
+            <button type="button" class="preset" data-preset="claims" aria-pressed="false">Unverified claim</button>
+            <button type="button" class="preset" data-preset="approval" aria-pressed="false">No approval</button>
+            <button type="button" class="preset" data-preset="duplicate" aria-pressed="false">Duplicate</button>
+          </div>
+          <div class="fields">
+            <label class="select-field" for="buyer"><span>Buyer selection</span><select id="buyer"><option>READY</option><option>HOLD</option><option>SKIP</option></select></label>
+            <label class="select-field" for="mailbox"><span>Mailbox verification</span><select id="mailbox"><option value="valid">valid</option><option value="unknown">unknown</option><option value="catch_all">catch_all</option><option value="invalid">invalid</option><option value="error">error</option></select></label>
+          </div>
+          <div class="toggle-grid">
+            <label class="toggle"><input id="evidence" type="checkbox" checked><span>Evidence verified and fresh</span></label>
+            <label class="toggle"><input id="route" type="checkbox" checked><span>Contact route suitable</span></label>
+            <label class="toggle"><input id="claims" type="checkbox" checked><span>Message claims supported</span></label>
+            <label class="toggle"><input id="duplicate" type="checkbox"><span>Previously contacted (duplicate)</span></label>
+            <label class="toggle"><input id="commercial" type="checkbox" checked><span>Commercial review passed</span></label>
+            <label class="toggle"><input id="deliverability" type="checkbox" checked><span>Deliverability healthy</span></label>
+            <label class="toggle"><input id="rate" type="checkbox" checked><span>Under rate limit</span></label>
+            <label class="toggle"><input id="cap" type="checkbox" checked><span>Under volume cap</span></label>
+            <label class="toggle"><input id="authorization" type="checkbox" checked><span>Explicit authorization given</span></label>
+            <label class="toggle"><input id="hash" type="checkbox" checked><span>Approval hash matches (simulated)</span></label>
+          </div>
+        </div>
+        <div class="results">
+          <div class="panel-top"><div><span class="section-label">02 / VERDICT</span><h2>Policy evaluation</h2></div><span id="verdict" class="verdict pass" role="status" aria-live="polite">PASS</span></div>
+          <div id="verdict-detail" class="verdict-detail" aria-live="polite">All synthetic gate conditions pass.</div>
+          <div class="metrics">
+            <div><span class="metric-label">GATES CHECKED</span><strong id="total" class="metric-value">13</strong></div>
+            <div><span class="metric-label">NOT PASSING</span><strong id="blocked-count" class="metric-value">0</strong></div>
+            <div><span class="metric-label">EMAILS SENT</span><strong class="metric-value">0</strong></div>
+          </div>
+          <div class="gate-heading"><h3>Every gate, explained</h3><span>FAIL-CLOSED POLICY</span></div>
+          <ol id="gate-list" class="gate-list" aria-label="Policy evaluation steps"></ol>
+          <div class="result-note"><strong>Simulation, not permission to send.</strong> Even when the result is PASS, this page never creates a transport, contacts a mailbox, or sends an email. It uses the exact <code>evaluateSendGates</code> and <code>validateDraft</code> functions from the repository.</div>
+        </div>
+      </section>
+      <section class="below">
+        <div><span class="section-label">03 / GO DEEPER</span><h2>Built for systems that need proof.</h2><p>The real CLI, MCP server and Zoho adapter live in the GitHub repository. The browser demo shows policy decisions only; it is not a production email-verification service.</p></div>
+        <div class="actions"><a class="primary" href="https://github.com/RecepioHQ/outbound-os">Explore source code ↗</a><a class="secondary" href="https://github.com/RecepioHQ/outbound-os/issues">Report an issue ↗</a></div>
+      </section>
+    </main>
+    <footer><span>Outbound OS · MIT license · Synthetic demonstration</span><span>No trackers. No cookies. No email collection.</span></footer>
+  </div>
+</body>
+</html>
