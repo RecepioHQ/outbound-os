@@ -1,0 +1,79 @@
+name: Publish OCI image and official MCP registry entry
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write
+  id-token: write
+
+concurrency:
+  group: outbound-os-mcp-registry-publish
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      IMAGE: ghcr.io/recepiohq/outbound-os-mcp:0.2.1
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build registry image
+        run: docker build --pull --tag "$IMAGE" .
+
+      - name: Verify ownership label before publishing
+        shell: bash
+        run: |
+          set -euo pipefail
+          actual=$(docker image inspect --format '{{ index .Config.Labels "io.modelcontextprotocol.server.name" }}' "$IMAGE")
+          test "$actual" = 'io.github.recepciohq/outbound-os'
+
+      - name: Authenticate to GHCR with repository-scoped token
+        shell: bash
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: echo "$GH_TOKEN" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin
+
+      - name: Publish OCI package to GHCR
+        run: docker push "$IMAGE"
+
+      - name: Verify that the image can be pulled without credentials
+        shell: bash
+        run: |
+          set -euo pipefail
+          docker logout ghcr.io
+          temp_config=$(mktemp -d)
+          trap 'rm -rf "$temp_config"' EXIT
+          if ! DOCKER_CONFIG="$temp_config" docker manifest inspect "$IMAGE" >/dev/null; then
+            echo 'Image cannot be fetched anonymously. GHCR package visibility must be Public before registering it.' >&2
+            exit 1
+          fi
+
+      - name: Install official mcp-publisher
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl --fail --location --retry 3 --silent --show-error \
+            https://github.com/modelcontextprotocol/registry/releases/latest/download/mcp-publisher_linux_amd64.tar.gz \
+            | tar -xz mcp-publisher
+
+      - name: Validate metadata
+        run: ./mcp-publisher validate server.json
+
+      - name: Authenticate using GitHub Actions OIDC
+        run: ./mcp-publisher login github-oidc
+
+      - name: Publish official MCP registry entry
+        run: ./mcp-publisher publish server.json
+
+      - name: Verify authoritative registry index
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl --fail --silent --show-error \
+            'https://registry.modelcontextprotocol.io/v0.1/servers?search=io.github.recepciohq%2Foutbound-os' \
+            | node -e "let s='';process.stdin.on('data',x=>s+=x);process.stdin.on('end',()=>{const o=JSON.parse(s);const found=(o.servers||[]).some(x=>x.server?.name==='io.github.recepciohq/outbound-os'||x.name==='io.github.recepciohq/outbound-os');if(!found){console.error('Publication not yet visible in official registry');process.exit(1)}console.log('Official MCP registry listing verified')})"
