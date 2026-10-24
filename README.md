@@ -33,6 +33,19 @@ A failed hard gate means **STOP**.
 
 ## Run as an installable CLI
 
+### Recommended: install the verified v0.2.0 release
+
+Requirements: **Node.js 22+** and npm. This downloads an MIT-licensed archive attached to the [official v0.2.0 GitHub Release](https://github.com/RecepioHQ/outbound-os/releases/tag/v0.2.0), **not an npm-registry package**.
+
+```bash
+npm install --global https://github.com/RecepioHQ/outbound-os/releases/download/v0.2.0/outbound-os-0.2.0.tgz
+outbound-os demo --json
+```
+
+**Verified on Windows/npm 10:** installation from this exact public GitHub Release asset completed successfully and the installed CLI returned `live_sent=false`, `simulated=true`. The archive's SHA-256 is `E16DE3C30F8C8DA3E6A1220B7B3E98098DADD414ECADF1C13B7B0A04781A6176`. For integrity-sensitive environments, download the archive, verify this checksum, and install the reviewed local file.
+
+**No email is sent in the demo.** Live sending remains off by default and every real send requires approved context and hard-gate checks.
+
 Node.js **22+** and Git are required. The source is [MIT licensed](LICENSE). **No mailbox credentials, ChatGPT account, or API keys are needed for the offline demo.**
 
 ### Try from source (recommended first run)
