@@ -34,7 +34,7 @@ jobs:
           const fs=require('node:fs');
           const server=JSON.parse(fs.readFileSync('server.json','utf8'));
           const docker=fs.readFileSync('Dockerfile','utf8');
-          if(server.name!=='io.github.recepciohq/outbound-os')throw Error('Unexpected namespace');
+          if(server.name!=='io.github.RecepioHQ/outbound-os')throw Error('Unexpected namespace');
           if(!docker.includes('io.modelcontextprotocol.server.name="'+server.name+'"'))throw Error('Ownership label missing');
           if(server.packages.length!==1 ||
              server.packages[0].identifier!=='ghcr.io/recepiohq/outbound-os-mcp:0.2.1')throw Error('Unexpected image name');
