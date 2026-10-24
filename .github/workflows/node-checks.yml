@@ -1,0 +1,45 @@
+name: Node checks
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: node-checks-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      OUTBOUND_OS_LIVE_SEND: "0"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+
+      - name: Install locked dependencies without lifecycle scripts
+        run: npm ci --ignore-scripts --no-audit --no-fund
+
+      - name: Unit and safety regressions
+        run: npm test
+
+      - name: Offline synthetic demo
+        run: node bin/outbound-os.js demo --json
+
+      - name: Public release disclosure scan
+        run: npm run scan:release
+
+      - name: Ensure installable archive includes CLI
+        run: |
+          node -e "const {execFileSync}=require('node:child_process');const out=execFileSync('npm',['pack','--dry-run','--json'],{encoding:'utf8'});const pack=JSON.parse(out);if(!pack[0].files.some(f=>f.path==='bin/outbound-os.js')){console.error('Executable missing from npm archive');process.exit(1);}"
