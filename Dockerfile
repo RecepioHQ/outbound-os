@@ -17,7 +17,9 @@ ENV NODE_ENV=production \
 COPY --from=dependencies --chown=node:node /app/node_modules ./node_modules
 COPY --chown=node:node package.json ./package.json
 COPY --chown=node:node chatgpt ./chatgpt
+COPY --from=dependencies --chown=node:node /app/chatgpt/node_modules ./chatgpt/node_modules
 COPY --chown=node:node src ./src
+RUN cd chatgpt && node -e "require.resolve('@modelcontextprotocol/sdk/server/mcp.js')"
 USER node
 EXPOSE 8787
 CMD ["node", "chatgpt/mcp-server.mjs"]

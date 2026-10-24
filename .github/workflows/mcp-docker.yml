@@ -41,7 +41,11 @@ jobs:
       - name: Verify container actually serves MCP
         run: |
           for attempt in $(seq 1 30); do
-            if curl --fail --silent --show-error http://127.0.0.1:18787/ > /dev/null; then
+            if [ "$(docker inspect --format '{{.State.Running}}' outbound-os-mcp-smoke)" != "true" ]; then
+              docker logs outbound-os-mcp-smoke
+              exit 1
+            fi
+            if curl --fail --silent http://127.0.0.1:18787/ > /dev/null; then
               exit 0
             fi
             sleep 1
