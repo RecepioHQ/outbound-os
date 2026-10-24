@@ -2,7 +2,11 @@
 
 **[Try the interactive policy demo — no installation or signup](https://recepiohq.github.io/outbound-os/)**
 
-Change synthetic buyer, mailbox, evidence, duplicate, and approval conditions in your browser. The interface executes the same deterministic gate and draft-preflight modules as the CLI; **it makes no network calls and sends no email**. A `PASS` in this demo is *not* authorization to send a real message.
+Change synthetic buyer, mailbox, evidence, duplicate, and approval conditions in your browser. The interface executes the same deterministic gate and draft-preflight modules as the CLI; **it makes no outbound API calls and sends no email**. A `PASS` in this demo is *not* authorization to send a real message. Use **Copy scenario link** to share the exact synthetic inputs and verdict with another developer; the link never contains real addresses or message data.
+
+[![Outbound OS interactive policy simulator: unknown mailbox results in BLOCK and zero emails sent](docs/assets/demo-blocked.png)](https://recepiohq.github.io/outbound-os/)
+
+*Screenshot from the real browser demo, with synthetic fixtures only.*
 
 > Most AI outbound tools optimize for sending more. Outbound OS is built to know when **not** to send.
 

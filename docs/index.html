@@ -7,8 +7,15 @@
   <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self'; base-uri 'none'; connect-src 'none'; form-action 'none'; object-src 'none'">
   <meta name="theme-color" content="#081c2b">
   <title>Outbound OS — Interactive Safety Gate Demo</title>
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Outbound OS — Try the AI outbound safety gates">
+  <meta property="og:description" content="Explore 13 real policy checks and see why unsafe messages are blocked. No account or real emails.">
+  <meta property="og:image" content="https://recepiohq.github.io/outbound-os/assets/demo-blocked.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="./favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="./demo.css">
   <script defer src="./gate-engine.js"></script>
+  <script defer src="./scenario-codec.js"></script>
   <script defer src="./app.js"></script>
 </head>
 <body>
@@ -22,7 +29,7 @@
         <div class="eyebrow"><span class="signal"></span> LIVE DECISION ENGINE · OFFLINE SIMULATION</div>
         <h1>The model can suggest.<br><em>Policy decides.</em></h1>
         <p>Most outbound tools help you send more. Outbound OS determines when <strong>not to send</strong>. Change the conditions below and watch the real project gate evaluator decide.</p>
-        <div class="trust"><span>✓ No account</span><span>✓ No network requests</span><span>✓ Zero email sends</span><span>✓ Production gate logic</span></div>
+        <div class="trust"><span>✓ No account</span><span>✓ No API or tracking calls</span><span>✓ Zero email sends</span><span>✓ Production gate logic</span></div>
       </section>
       <section class="workspace" aria-label="Interactive policy simulator">
         <div class="controls">
@@ -59,6 +66,10 @@
             <div><span class="metric-label">GATES CHECKED</span><strong id="total" class="metric-value">13</strong></div>
             <div><span class="metric-label">NOT PASSING</span><strong id="blocked-count" class="metric-value">0</strong></div>
             <div><span class="metric-label">EMAILS SENT</span><strong class="metric-value">0</strong></div>
+          </div>
+          <div class="share-tools">
+            <button type="button" id="share-scenario" class="share-button">Copy scenario link ↗</button>
+            <small id="share-status" role="status" aria-live="polite">Share these synthetic conditions with another developer.</small>
           </div>
           <div class="gate-heading"><h3>Every gate, explained</h3><span>FAIL-CLOSED POLICY</span></div>
           <ol id="gate-list" class="gate-list" aria-label="Policy evaluation steps"></ol>

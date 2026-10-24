@@ -1,9 +1,11 @@
 'use strict';
 (function () {
   const engine = window.OutboundGateEngine;
-  if (!engine || typeof engine.evaluateSendGates !== 'function' || typeof engine.validateDraft !== 'function') {
-    const details = document.getElementById('verdict-detail');
-    details.textContent = 'The policy engine failed to load. Do not rely on this display.';
+  const codec = window.OutboundScenarioCodec;
+  if (!engine || typeof engine.evaluateSendGates !== 'function' ||
+      typeof engine.validateDraft !== 'function' || !codec) {
+    document.getElementById('verdict-detail').textContent =
+      'The policy engine or scenario parser failed to load. Do not rely on this display.';
     document.getElementById('verdict').textContent = 'UNAVAILABLE';
     return;
   }
@@ -25,26 +27,41 @@
     return state;
   }
 
+  function clearPresets() {
+    for (const button of document.querySelectorAll('[data-preset]')) {
+      button.classList.remove('active');
+      button.setAttribute('aria-pressed', 'false');
+    }
+  }
+
+  function applyState(state) {
+    byId('buyer').value = state.buyer;
+    byId('mailbox').value = state.mailbox;
+    for (const id of toggleIds) byId(id).checked = state[id];
+    clearPresets();
+  }
+
   function setPreset(name) {
     const preset = PRESETS[name];
     if (!preset) return;
     byId('buyer').value = preset.buyer;
     byId('mailbox').value = preset.mailbox;
-    for (const id of toggleIds) byId(id).checked = id === 'duplicate' ? false : true;
+    for (const id of toggleIds) byId(id).checked = id !== 'duplicate';
     for (const [id, value] of Object.entries(preset)) {
       if (toggleIds.includes(id)) byId(id).checked = value;
     }
-    for (const button of document.querySelectorAll('[data-preset]')) {
-      const active = button.getAttribute('data-preset') === name;
-      button.classList.toggle('active', active);
-      button.setAttribute('aria-pressed', active ? 'true' : 'false');
+    clearPresets();
+    const active = document.querySelector('[data-preset="' + name + '"]');
+    if (active) {
+      active.classList.add('active');
+      active.setAttribute('aria-pressed', 'true');
     }
     evaluate();
   }
 
   function buildContext(state) {
-    // This browser never obtains a real authorization or mailbox-verification result.
-    // Booleans below are synthetic *inputs* to the real gate engine, not real-world checks.
+    // These switches model synthetic facts. No real mailbox, reviewer, or
+    // third-party authorization is consulted by this static web page.
     const claim = 'Example company publishes a receptionist product';
     const draft = {
       recipient: 'owner@northstar.example',
@@ -94,7 +111,8 @@
   }
 
   function evaluate() {
-    const context = buildContext(getState());
+    const state = getState();
+    const context = buildContext(state);
     const outcome = engine.evaluateSendGates(context);
     const nonPassing = outcome.gates.filter((gate) => gate.result !== 'PASS');
     const badge = byId('verdict');
@@ -106,6 +124,10 @@
       'All synthetic conditions pass. Simulation only: zero emails are sent.' :
       nonPassing.map((item) => item.name.replace(/_/g, ' ') + ': ' + item.result).join(' · ');
     renderGates(outcome.gates);
+
+    const hash = codec.encode(state);
+    if (window.location.hash !== hash) window.history.replaceState(null, '', hash);
+    byId('share-status').textContent = 'Shareable URL updated for these synthetic conditions.';
   }
 
   for (const button of document.querySelectorAll('[data-preset]')) {
@@ -114,13 +136,34 @@
 
   for (const id of ['buyer', 'mailbox', ...toggleIds]) {
     byId(id).addEventListener('change', () => {
-      for (const button of document.querySelectorAll('[data-preset]')) {
-        button.classList.remove('active');
-        button.setAttribute('aria-pressed', 'false');
-      }
+      clearPresets();
       evaluate();
     });
   }
 
-  setPreset('pass');
+  byId('share-scenario').addEventListener('click', async () => {
+    try {
+      if (!navigator.clipboard || !navigator.clipboard.writeText) throw new Error('clipboard unavailable');
+      await navigator.clipboard.writeText(window.location.href);
+      byId('share-status').textContent = 'Scenario link copied to clipboard.';
+    } catch (_) {
+      byId('share-status').textContent = 'Clipboard unavailable. Copy the scenario URL from the address bar.';
+    }
+  });
+
+  window.addEventListener('hashchange', () => {
+    const restored = codec.decode(window.location.hash);
+    if (restored) {
+      applyState(restored);
+      evaluate();
+    }
+  });
+
+  const initial = codec.decode(window.location.hash);
+  if (initial) {
+    applyState(initial);
+    evaluate();
+  } else {
+    setPreset('pass');
+  }
 })();
