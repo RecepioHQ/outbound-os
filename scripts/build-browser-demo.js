@@ -13,7 +13,7 @@ const OUTPUT = path.join(ROOT, 'docs', 'gate-engine.js');
 
 function build() {
   const definitions = SOURCES.map(([name, relativePath]) => {
-    const source = fs.readFileSync(path.join(ROOT, relativePath), 'utf8').trimEnd();
+    const source = fs.readFileSync(path.join(ROOT, relativePath), 'utf8').replace(/\r\n/g, '\n').trimEnd();
     return `    ${JSON.stringify(name)}: function (module, exports, require) {\n${source}\n    }`;
   }).join(',\n');
 
@@ -46,7 +46,7 @@ ${definitions}
 function main() {
   const output = build();
   if (process.argv.includes('--check')) {
-    if (!fs.existsSync(OUTPUT) || fs.readFileSync(OUTPUT, 'utf8') !== output) {
+    if (!fs.existsSync(OUTPUT) || fs.readFileSync(OUTPUT, 'utf8').replace(/\r\n/g, '\n') !== output) {
       process.stderr.write('Generated browser gate engine is stale: run node scripts/build-browser-demo.js\n');
       process.exitCode = 1;
     } else {

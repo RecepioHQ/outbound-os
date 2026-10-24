@@ -9,7 +9,7 @@ const { validateDraft } = require('../src/preflight');
 
 const ROOT = path.resolve(__dirname, '..');
 const html = fs.readFileSync(path.join(ROOT, 'docs/index.html'), 'utf8');
-const bundled = fs.readFileSync(path.join(ROOT, 'docs/gate-engine.js'), 'utf8');
+const bundled = fs.readFileSync(path.join(ROOT, 'docs/gate-engine.js'), 'utf8').replace(/\r\n/g, '\n');
 
 function context(overrides = {}) {
   return {
@@ -62,7 +62,10 @@ test('browser and Node gate decisions match across representative scenarios', ()
 
 test('web demo is self-contained, network-disabled and clearly marked as simulation', () => {
   assert.match(html, /connect-src 'none'/);
-  assert.match(html, /No network requests/);
+  assert.match(html, /No API or tracking calls/);
+  assert.match(html, /id="share-scenario"/);
+  assert.match(html, /src="\.\/scenario-codec\.js"/);
+  assert.match(html, /rel="icon" href="\.\/favicon\.svg"/);
   assert.match(html, /Simulation, not permission to send/);
   assert.match(html, /id="gate-list"/);
   assert.match(html, /src="\.\/gate-engine\.js"/);

@@ -10,6 +10,8 @@ Sources:
 ## Project and proof
 
 - Interactive browser demo (public, no account): https://recepiohq.github.io/outbound-os/
+- Screenshot of a blocked synthetic scenario: https://github.com/RecepioHQ/outbound-os/blob/main/docs/assets/demo-blocked.png
+- Each scenario URL can be shared via the **Copy scenario link** button; inputs are restricted to synthetic policy flags, and a direct link restores those inputs after reload.
 - Repo: https://github.com/RecepioHQ/outbound-os
 - Verified browser result: HTTPS 200 and Chrome rendered 13 production-policy gates; synthetic-only, no network calls or real email
 - GitHub Pages source: main branch, /docs directory
