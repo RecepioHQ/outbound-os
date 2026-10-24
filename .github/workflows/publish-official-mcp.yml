@@ -70,10 +70,5 @@ jobs:
       - name: Publish official MCP registry entry
         run: ./mcp-publisher publish server.json
 
-      - name: Verify authoritative registry index
-        shell: bash
-        run: |
-          set -euo pipefail
-          curl --fail --silent --show-error \
-            'https://registry.modelcontextprotocol.io/v0.1/servers?search=io.github.recepciohq%2Foutbound-os' \
-            | node -e "let s='';process.stdin.on('data',x=>s+=x);process.stdin.on('end',()=>{const o=JSON.parse(s);const found=(o.servers||[]).some(x=>x.server?.name==='io.github.RecepioHQ/outbound-os'||x.name==='io.github.RecepioHQ/outbound-os');if(!found){console.error('Publication not yet visible in official registry');process.exit(1)}console.log('Official MCP registry listing verified')})"
+      - name: Verify public entry by exact case-sensitive namespace
+        run: node scripts/verify-official-mcp-registry.mjs --retry

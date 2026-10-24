@@ -2,7 +2,7 @@
 
 This project can be discovered via the **official [Model Context Protocol registry](https://registry.modelcontextprotocol.io/)** once its metadata and public image have been successfully published.
 
-**Current status:** `server.json` is a publication candidate; the repository does **not** claim to be listed in the registry or auto-discovered by Glama until the registry API confirms it.
+**Verified status (2026-10-24):** [The official MCP Registry API](https://registry.modelcontextprotocol.io/v0.1/servers?search=outbound-os) returned `io.github.RecepioHQ/outbound-os` version `0.2.1` with status **`active`**, and the expected public `ghcr.io/recepiohq/outbound-os-mcp:0.2.1` OCI package. This **does not** establish Glama acceptance, third-party installations or a publicly hosted MCP endpoint.
 
 ## Why an OCI image
 
@@ -22,7 +22,7 @@ The [manual-only workflow](../.github/workflows/publish-official-mcp.yml) runs o
 2. Publish it to the GitHub Container Registry via a short-lived repository-scoped GitHub Actions token.
 3. Confirm the image is **publicly readable anonymously**, without using the job's login credentials. If the image is private, the workflow stops **before** publishing metadata. In that case, a RecepioHQ owner must change the GHCR package visibility to **Public** in the package settings and rerun the workflow.
 4. Validate `server.json` with the official publisher tool.
-5. Log in using GitHub Actions OIDC, publish to the official registry, and verify the registry search API includes the entry.
+5. Log in using GitHub Actions OIDC, publish to the official registry, and run `node scripts/verify-official-mcp-registry.mjs --retry` to check the **case-sensitive namespace, version, OCI identifier and active status**. The registry search index may lag the successful publishing acknowledgement.
 
 GHCR package creation may initially default to private. **Do not assume a successful `docker push` is a public release.**
 
