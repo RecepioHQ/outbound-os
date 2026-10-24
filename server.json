@@ -1,6 +1,6 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
-  "name": "io.github.recepciohq/outbound-os",
+  "name": "io.github.RecepioHQ/outbound-os",
   "title": "Outbound OS",
   "description": "Evidence-gated email outreach MCP with dry-run defaults and explicit send approvals.",
   "repository": {

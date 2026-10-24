@@ -30,7 +30,7 @@ jobs:
         run: |
           set -euo pipefail
           actual=$(docker image inspect --format '{{ index .Config.Labels "io.modelcontextprotocol.server.name" }}' "$IMAGE")
-          test "$actual" = 'io.github.recepciohq/outbound-os'
+          test "$actual" = 'io.github.RecepioHQ/outbound-os'
 
       - name: Authenticate to GHCR with repository-scoped token
         shell: bash
@@ -76,4 +76,4 @@ jobs:
           set -euo pipefail
           curl --fail --silent --show-error \
             'https://registry.modelcontextprotocol.io/v0.1/servers?search=io.github.recepciohq%2Foutbound-os' \
-            | node -e "let s='';process.stdin.on('data',x=>s+=x);process.stdin.on('end',()=>{const o=JSON.parse(s);const found=(o.servers||[]).some(x=>x.server?.name==='io.github.recepciohq/outbound-os'||x.name==='io.github.recepciohq/outbound-os');if(!found){console.error('Publication not yet visible in official registry');process.exit(1)}console.log('Official MCP registry listing verified')})"
+            | node -e "let s='';process.stdin.on('data',x=>s+=x);process.stdin.on('end',()=>{const o=JSON.parse(s);const found=(o.servers||[]).some(x=>x.server?.name==='io.github.RecepioHQ/outbound-os'||x.name==='io.github.RecepioHQ/outbound-os');if(!found){console.error('Publication not yet visible in official registry');process.exit(1)}console.log('Official MCP registry listing verified')})"
