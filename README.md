@@ -4,6 +4,8 @@
 
 **Official MCP Registry:** [Outbound OS — active listing (v0.2.1)](https://registry.modelcontextprotocol.io/v0.1/servers?search=outbound-os). Public OCI package: `ghcr.io/recepiohq/outbound-os-mcp:0.2.1`. The MCP server is designed for local operation and has **no built-in authentication**; never publish its HTTP port to the public Internet.
 
+**Use it in an AI coding client:** [Docker + Claude Code / Cursor MCP quickstart](docs/first-mcp-client.md) — local-only, no mailbox credentials, three actual MCP tools available for inspection.
+
 Change synthetic buyer, mailbox, evidence, duplicate, and approval conditions in your browser. The interface executes the same deterministic gate and draft-preflight modules as the CLI; **it makes no outbound API calls and sends no email**. A `PASS` in this demo is *not* authorization to send a real message. Use **Copy scenario link** to share the exact synthetic inputs and verdict with another developer; the link never contains real addresses or message data.
 
 [![Outbound OS interactive policy simulator: unknown mailbox results in BLOCK and zero emails sent](docs/assets/demo-blocked.png)](https://recepiohq.github.io/outbound-os/)
