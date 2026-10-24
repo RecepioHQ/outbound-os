@@ -1,0 +1,42 @@
+name: Official MCP registry metadata
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install official mcp-publisher
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl --fail --location --retry 3 --silent --show-error \
+            https://github.com/modelcontextprotocol/registry/releases/latest/download/mcp-publisher_linux_amd64.tar.gz \
+            | tar -xz mcp-publisher
+
+      - name: Validate server metadata
+        run: ./mcp-publisher validate server.json
+
+      - name: Ensure registry identity matches Docker image
+        shell: bash
+        run: |
+          set -euo pipefail
+          node - <<'NODE'
+          const fs=require('node:fs');
+          const server=JSON.parse(fs.readFileSync('server.json','utf8'));
+          const docker=fs.readFileSync('Dockerfile','utf8');
+          if(server.name!=='io.github.recepciohq/outbound-os')throw Error('Unexpected namespace');
+          if(!docker.includes('io.modelcontextprotocol.server.name="'+server.name+'"'))throw Error('Ownership label missing');
+          if(server.packages.length!==1 ||
+             server.packages[0].identifier!=='ghcr.io/recepiohq/outbound-os-mcp:0.2.1')throw Error('Unexpected image name');
+          if(server.packages[0].transport.url!=='http://localhost:8787/mcp')throw Error('Unsupported transport');
+          NODE
