@@ -45,14 +45,17 @@ node bin/outbound-os.js --help
 node bin/outbound-os.js demo --json
 ```
 
-### Optional global command from GitHub
+### Optional global command from a local package archive
 
 ```bash
-npm install --global github:RecepioHQ/outbound-os
+npm pack
+npm install --global ./outbound-os-0.1.0.tgz
 outbound-os demo --json
 ```
 
-This installs **from the GitHub repository**; the project does **not** claim an independently verified npm-registry publication. For an audited or reproducible installation, pin a reviewed Git commit instead of automatically tracking the default branch.
+The `.tgz` is built **locally from the checked-out source** and should be reviewed before installation. On Windows, use PowerShell with the same commands (or replace `./` with `.\\`). The archive-install path is verified on Windows with an isolated npm prefix. **The project is not claiming publication on the npm registry.**
+
+**Do not use `npm install -g github:RecepioHQ/outbound-os` as a recommended path:** on one verified Windows/npm 10 installation it produced a dangling junction into npm's temporary Git clone. The packed archive avoids that observed issue.
 
 The demo uses reserved example domains, a mock mailbox and a dry-run transport: **no real emails are sent**. For real operations, follow [provider configuration](docs/provider-adapters.md) and [security requirements](SECURITY.md). The `start`, `check` and `send` commands still invoke the existing state, verification and hard-gate code; installing the CLI grants no permission to bypass them.
 
