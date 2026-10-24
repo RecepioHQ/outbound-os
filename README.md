@@ -74,6 +74,18 @@ The demo uses reserved example domains, a mock mailbox and a dry-run transport: 
 
 ## 60-second demo
 
+### Compare a permitted dry run with a blocked attempt
+
+The comparison uses **real gate evaluation** against synthetic fixtures and mock transports. One message satisfies the checks, while a second message has an `unknown` mailbox verification result and must be blocked **before the transport is called**.
+
+```bash
+# In a checkout of the latest source:
+npm ci
+node bin/outbound-os.js demo --compare
+```
+
+The output includes `allowed.send_decision=PASS`, `blocked.send_decision=BLOCK`, a reason from the `mailbox_verification` gate, and `blocked.transport_calls=0`. These are synthetic checks, **not** claims that any real mailbox was verified or any live email was sent.
+
 Requirements: Node.js 22+.
 
 ```bash
