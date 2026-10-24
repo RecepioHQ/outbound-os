@@ -13,9 +13,9 @@ This release focuses on a safe, installable developer experience for the MIT-lic
 
 ### Verified
 
-- **94/94 tests passed** in a Windows isolated checkout using Node 22 and npm 10.
+- **94/94 tests passed** from the v0.2.0 branch in an isolated Windows checkout using Node 22 and npm 10.
 - `npm run scan:release` returned zero findings in that checkout.
-- Locally packed `outbound-os-0.2.0.tgz` is the intended install method; the package binary was verified at v0.1.0 pre-release code level with an isolated-prefix archive installation. The v0.2.0 archive itself must be checked before publication.
+- **The actual v0.2.0 archive** was created and installed with an isolated npm prefix on Windows. The installed CLI ran `demo --json` and confirmed `live_sent=false` and `simulated=true`.
 - The Node GitHub Actions workflow for the CLI change passed in the main repository.
 
 ### Installation
