@@ -49,7 +49,7 @@ node bin/outbound-os.js demo --json
 
 ```bash
 npm pack
-npm install --global ./outbound-os-0.1.0.tgz
+npm install --global ./outbound-os-0.2.0.tgz
 outbound-os demo --json
 ```
 
@@ -315,7 +315,7 @@ See [SECURITY.md](SECURITY.md).
 
 This is a **reference implementation**, not a hosted multi-tenant SaaS and not a mass-mailing product.
 
-v0.1.0 intentionally does not provide:
+v0.2.0 intentionally does not provide:
 
 - autonomous background/scheduled sending;
 - a hosted OAuth service for public multi-user MCP access;
