@@ -33,16 +33,16 @@ A failed hard gate means **STOP**.
 
 ## Run as an installable CLI
 
-### Recommended: install the verified v0.2.0 release
+### Recommended: install the v0.2.1 release
 
-Requirements: **Node.js 22+** and npm. This downloads an MIT-licensed archive attached to the [official v0.2.0 GitHub Release](https://github.com/RecepioHQ/outbound-os/releases/tag/v0.2.0), **not an npm-registry package**.
+Requirements: **Node.js 22+** and npm. This downloads an MIT-licensed archive attached to the [official v0.2.0 GitHub Release](https://github.com/RecepioHQ/outbound-os/releases/tag/v0.2.1), **not an npm-registry package**.
 
 ```bash
-npm install --global https://github.com/RecepioHQ/outbound-os/releases/download/v0.2.0/outbound-os-0.2.0.tgz
+npm install --global https://github.com/RecepioHQ/outbound-os/releases/download/v0.2.0/outbound-os-0.2.1.tgz
 outbound-os demo --json
 ```
 
-**Verified on Windows/npm 10:** installation from this exact public GitHub Release asset completed successfully and the installed CLI returned `live_sent=false`, `simulated=true`. The archive's SHA-256 is `E16DE3C30F8C8DA3E6A1220B7B3E98098DADD414ECADF1C13B7B0A04781A6176`. For integrity-sensitive environments, download the archive, verify this checksum, and install the reviewed local file.
+**Verification:** This release candidate passed local Windows tests; final archive checks and checksum are recorded in the [v0.2.1 release](https://github.com/RecepioHQ/outbound-os/releases/tag/v0.2.1) when published. For integrity-sensitive environments, verify that SHA-256 before installing.
 
 **No email is sent in the demo.** Live sending remains off by default and every real send requires approved context and hard-gate checks.
 
@@ -62,7 +62,7 @@ node bin/outbound-os.js demo --json
 
 ```bash
 npm pack
-npm install --global ./outbound-os-0.2.0.tgz
+npm install --global ./outbound-os-0.2.1.tgz
 outbound-os demo --json
 ```
 
@@ -73,6 +73,18 @@ The `.tgz` is built **locally from the checked-out source** and should be review
 The demo uses reserved example domains, a mock mailbox and a dry-run transport: **no real emails are sent**. For real operations, follow [provider configuration](docs/provider-adapters.md) and [security requirements](SECURITY.md). The `start`, `check` and `send` commands still invoke the existing state, verification and hard-gate code; installing the CLI grants no permission to bypass them.
 
 ## 60-second demo
+
+### Compare a permitted dry run with a blocked attempt
+
+The comparison uses **real gate evaluation** against synthetic fixtures and mock transports. One message satisfies the checks, while a second message has an `unknown` mailbox verification result and must be blocked **before the transport is called**.
+
+```bash
+# In a checkout of the latest source:
+npm ci
+node bin/outbound-os.js demo --compare
+```
+
+The output includes `allowed.send_decision=PASS`, `blocked.send_decision=BLOCK`, a reason from the `mailbox_verification` gate, and `blocked.transport_calls=0`. These are synthetic checks, **not** claims that any real mailbox was verified or any live email was sent.
 
 Requirements: Node.js 22+.
 
@@ -328,7 +340,7 @@ See [SECURITY.md](SECURITY.md).
 
 This is a **reference implementation**, not a hosted multi-tenant SaaS and not a mass-mailing product.
 
-v0.2.0 intentionally does not provide:
+v0.2.1 intentionally does not provide:
 
 - autonomous background/scheduled sending;
 - a hosted OAuth service for public multi-user MCP access;
