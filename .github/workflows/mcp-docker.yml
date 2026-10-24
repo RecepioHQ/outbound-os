@@ -1,0 +1,63 @@
+name: MCP container introspection
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: docker-mcp-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  glama-compatible:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+
+      - name: Install test client's locked dependencies
+        run: npm ci --ignore-scripts --no-audit --no-fund
+
+      - name: Build reproducible inspection image
+        run: docker build --tag outbound-os-mcp:ci .
+
+      - name: Start dry-run container accessible only from host loopback
+        run: |
+          docker run --detach --name outbound-os-mcp-smoke \
+            --read-only --tmpfs /tmp:rw,nosuid,size=32m \
+            --publish 127.0.0.1:18787:8787 \
+            --env OUTBOUND_OS_LIVE_SEND=0 \
+            outbound-os-mcp:ci
+
+      - name: Verify container actually serves MCP
+        run: |
+          for attempt in $(seq 1 30); do
+            if curl --fail --silent --show-error http://127.0.0.1:18787/ > /dev/null; then
+              exit 0
+            fi
+            sleep 1
+          done
+          docker logs outbound-os-mcp-smoke
+          exit 1
+
+      - name: Check MCP initialize and tools/list over HTTP
+        env:
+          OUTBOUND_OS_MCP_TEST_URL: http://127.0.0.1:18787/mcp
+        run: node scripts/probe-mcp-endpoint.mjs
+
+      - name: Container diagnostics on failure
+        if: failure()
+        run: docker logs outbound-os-mcp-smoke || true
+
+      - name: Clean isolated inspection container
+        if: always()
+        run: docker rm --force outbound-os-mcp-smoke || true
