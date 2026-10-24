@@ -1,5 +1,9 @@
 # Outbound OS
 
+**[Try the interactive policy demo — no installation or signup](https://recepiohq.github.io/outbound-os/)**
+
+Change synthetic buyer, mailbox, evidence, duplicate, and approval conditions in your browser. The interface executes the same deterministic gate and draft-preflight modules as the CLI; **it makes no network calls and sends no email**. A `PASS` in this demo is *not* authorization to send a real message.
+
 > Most AI outbound tools optimize for sending more. Outbound OS is built to know when **not** to send.
 
 ```text
@@ -35,7 +39,7 @@ A failed hard gate means **STOP**.
 
 ### Recommended: install the v0.2.1 release
 
-Requirements: **Node.js 22+** and npm. This downloads an MIT-licensed archive attached to the [official v0.2.0 GitHub Release](https://github.com/RecepioHQ/outbound-os/releases/tag/v0.2.1), **not an npm-registry package**.
+Requirements: **Node.js 22+** and npm. This downloads an MIT-licensed archive attached to the [official v0.2.1 GitHub Release](https://github.com/RecepioHQ/outbound-os/releases/tag/v0.2.1), **not an npm-registry package**.
 
 ```bash
 npm install --global https://github.com/RecepioHQ/outbound-os/releases/download/v0.2.0/outbound-os-0.2.1.tgz

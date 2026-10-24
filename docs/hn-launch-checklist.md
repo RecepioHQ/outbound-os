@@ -9,7 +9,10 @@ Sources:
 
 ## Project and proof
 
+- Interactive browser demo (public, no account): https://recepiohq.github.io/outbound-os/
 - Repo: https://github.com/RecepioHQ/outbound-os
+- Verified browser result: HTTPS 200 and Chrome rendered 13 production-policy gates; synthetic-only, no network calls or real email
+- GitHub Pages source: main branch, /docs directory
 - License: MIT (see `LICENSE`)
 - Stack: Node.js 22+, CommonJS, local CLI, optional MCP and Zoho Mail adapter
 - Core distinction: checks buyer selection, evidentiary support, mailbox verification, duplicates, approval hash, send authorization, deliverability and rate/cap policy **before any transport action**.
@@ -31,6 +34,7 @@ For installation from an **official release archive**, first ensure that the arc
 
 ## Prior to manual submission
 
+- [ ] Manually open the public browser demo and test the approved, blocked and HOLD scenarios before submission.
 - [ ] Verify the latest default branch and all advertised commands still work on a clean machine.
 - [ ] Check the README install steps, license, and links.
 - [ ] Ensure a green CI workflow and the safety scanner completed.
