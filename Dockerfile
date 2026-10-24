@@ -7,7 +7,7 @@ COPY chatgpt/package.json ./chatgpt/package.json
 RUN npm ci --omit=dev --ignore-scripts --no-audit --no-fund
 
 FROM node:22-alpine
-LABEL io.modelcontextprotocol.server.name="io.github.recepciohq/outbound-os" \
+LABEL io.modelcontextprotocol.server.name="io.github.RecepioHQ/outbound-os" \
       org.opencontainers.image.source="https://github.com/RecepioHQ/outbound-os" \
       org.opencontainers.image.licenses="MIT"
 WORKDIR /app
